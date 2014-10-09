@@ -27,13 +27,12 @@ public class EmployeesServlet extends HttpServlet {
 		//TODO implement logic to process data that client sent to server with POST method.
 		//It could include adding employee to repository,
 		//validating email, redirecting client to a page where employee list is displayed etc.
-//        String fname = request.getParameter("first_name");
-//        String lname = request.getParameter("last_name");
-//        String email = request.getParameter("email_in");
-//        try {
-//            EmployeeRepositorySingleton.getRepository().addEmployee(fname, lname, email);
-//        } catch (IncorrectEmailException e) {
-//            request.setAttribute("errMsg", e);
-//        }
+        try {
+            EmployeeRepositorySingleton.getRepository().addEmployee(request.getParameter("first_name"),request.getParameter("last_name"),
+                    request.getParameter("email_in"));
+        } catch (com.academysmart.exception.ServletException e) {
+            request.setAttribute("errMsg", e);
+        }
+        doGet(request, response);
 	}
 }

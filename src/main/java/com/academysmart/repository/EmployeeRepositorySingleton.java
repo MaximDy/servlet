@@ -1,6 +1,7 @@
 package com.academysmart.repository;
 
 import com.academysmart.exception.IncorrectEmailException;
+import com.academysmart.exception.ServletException;
 import com.academysmart.model.Employee;
 
 import java.util.ArrayList;
@@ -19,8 +20,6 @@ public class EmployeeRepositorySingleton {
                 if (instance == null)
                 {
                     instance = new EmployeeRepositorySingleton();
-                    instance.addEmployee("fname1","lname2", "atata@gmail.com");
-                    instance.addEmployee("fname2","lname2","atata2@gmail.com");
                 }
             }
         }
@@ -28,18 +27,23 @@ public class EmployeeRepositorySingleton {
 	}
 
 	public int addEmployee(String fname, String lname, String email)
-//			throws IncorrectEmailException
+            throws ServletException
     {
 		//TODO implement method that adds an employee to repository
 		//This method should check that email is not used by other employees
         Employee employee = new Employee(fname, lname, email);
-//        for (Employee e : this.emp) {
-//            if (e.getEmail().equals(employee.getEmail())) {
-//                throw new IncorrectEmailException("This email is already used.");
-//            }
-//        }
+        if (employee.getFname().equals("") || employee.getLname().equals("") || employee.getEmail().equals(""))
+        {
+            throw new ServletException("One of the fields wasn't field up.");
+        }
+        for (Employee e : this.emp) {
+            if (e.getEmail().equals(employee.getEmail())) {
+                throw new IncorrectEmailException("This email is already used.");
+            }
+        }
+        Employee.incCounter();
         this.emp.add(employee);
-        return this.emp.get(Employee.getCounter()-1).getId();
+        return this.emp.get(this.emp.size()-1).getId();
 	}
 
 	public List<Employee> getAllEmployees() {

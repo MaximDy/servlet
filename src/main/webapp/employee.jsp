@@ -38,15 +38,19 @@
 		<c:choose>
 			<c:when test="${empty applicationScope.employees}">
 				<!-- Inform user that there's no employee yet -->
+                <c:out value="Employee list is empty"></c:out>
 			</c:when>
 			<c:otherwise>
+                <table>
 				<c:forEach var="employee" items="${applicationScope.employees}">
 					<tr>
+                        <td><c:out value="${employee.id}"></c:out> </td>
 						<td><c:out value="${employee.fname}"></c:out></td>
 						<td><c:out value="${employee.lname}"></c:out></td>
 						<td><c:out value="${employee.email}"></c:out></td>
 					</tr>
                 </c:forEach>
+                </table>
 			</c:otherwise>
 		</c:choose>
 	</div>
