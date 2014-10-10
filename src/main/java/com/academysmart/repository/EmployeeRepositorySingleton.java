@@ -11,6 +11,8 @@ public class EmployeeRepositorySingleton {
     private static volatile EmployeeRepositorySingleton instance = null;
     private List<Employee> emp = new ArrayList<>();
 
+    private EmployeeRepositorySingleton(){}
+
 	public static EmployeeRepositorySingleton getRepository() {
 		//TODO implement method that returns repository instance
         if (instance == null)
