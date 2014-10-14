@@ -1,5 +1,6 @@
 package com.academysmart.model;
 
+import com.academysmart.database.EmployeeDatabase;
 import com.academysmart.exception.IncorrectEmailException;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,7 +10,6 @@ public class Employee {
     private String fname;
     private String lname;
     private String email;
-    private static AtomicInteger counter = new AtomicInteger(1);
     private int id;
 
     public Employee(String namef, String namel, String email) throws IncorrectEmailException {
@@ -20,19 +20,14 @@ public class Employee {
         {
             throw new IncorrectEmailException("wrong email format.");
         }
-        this.id = counter.get();
     }
 
     public int getId() {
         return id;
     }
 
-    public static void incCounter() {
-        counter.getAndIncrement();
-    }
-
-    public static int getCounter() {
-        return counter.get();
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setFname(String fname) {

@@ -1,6 +1,5 @@
 package com.academysmart.controller;
 
-import com.academysmart.exception.IncorrectEmailException;
 import com.academysmart.repository.EmployeeRepositorySingleton;
 
 import java.io.IOException;
