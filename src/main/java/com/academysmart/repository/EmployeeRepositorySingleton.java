@@ -1,9 +1,12 @@
 package com.academysmart.repository;
 
-import com.academysmart.database.EmployeeDatabase;
+import com.academysmart.database.implementation.EmployeeDAOImp;
+import com.academysmart.database.interfaces.EmployeeDAO;
 import com.academysmart.exception.IncorrectEmailException;
 import com.academysmart.exception.ServletException;
 import com.academysmart.model.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,12 +15,18 @@ import java.util.List;
 public class EmployeeRepositorySingleton {
     private static volatile EmployeeRepositorySingleton instance = null;
     private List<Employee> emp = new ArrayList<>();
+    @Autowired
+    @Qualifier("e_daoImp")
+    private EmployeeDAO employeeDAOImp;
 
     private EmployeeRepositorySingleton(){
-        EmployeeDatabase.getDatabase().checkCreateTable();
     }
 
-	public static EmployeeRepositorySingleton getRepository() {
+    public void setEmployeeDAOImp(EmployeeDAOImp employeeDAOImp) {
+        this.employeeDAOImp = employeeDAOImp;
+    }
+
+    public static EmployeeRepositorySingleton getRepository() {
 		//TODO implement method that returns repository instance
         if (instance == null)
         {
@@ -38,6 +47,10 @@ public class EmployeeRepositorySingleton {
 		//TODO implement method that adds an employee to repository
 		//This method should check that email is not used by other employees
         Employee employee = new Employee(fname, lname, email);
+        return this.addEmployee(employee);
+	}
+
+    public int addEmployee(Employee employee) throws ServletException {
         if (employee.getFname().equals("") || employee.getLname().equals("") || employee.getEmail().equals(""))
         {
             throw new ServletException("One of the fields wasn't field up.");
@@ -48,16 +61,16 @@ public class EmployeeRepositorySingleton {
             }
         }
         this.emp.add(employee);
-        EmployeeDatabase.getDatabase().insertData(employee);
+        this.employeeDAOImp.saveEmployee(employee);
         return this.emp.get(this.emp.size()-1).getId();
-	}
+    }
 
-	public List<Employee> getAllEmployees() {
+	public List<Employee> getAllEmployees(){
 		//TODO implement method that returns list of all employees
-        if (!this.emp.containsAll(EmployeeDatabase.getDatabase().getData()))
+        if (!this.emp.containsAll(this.employeeDAOImp.getAllEmployees()))
         {
             this.emp.clear();
-            this.emp.addAll(EmployeeDatabase.getDatabase().getData());
+            this.emp.addAll(this.employeeDAOImp.getAllEmployees());
             this.emp.sort(new Comparator<Employee>() {
                 @Override
                 public int compare(Employee o1, Employee o2) {

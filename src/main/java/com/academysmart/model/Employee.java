@@ -16,11 +16,13 @@ public class Employee {
         this.fname = namef;
         this.lname = namel;
         this.email = email;
-        if (this.email.matches("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\\\.[a-zA-Z0-9-.]+$"))
-        {
-            throw new IncorrectEmailException("wrong email format.");
-        }
+//        if (this.email.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
+//        {
+//            throw new IncorrectEmailException("wrong email format.");
+//        }
     }
+
+    public Employee() {}
 
     public int getId() {
         return id;

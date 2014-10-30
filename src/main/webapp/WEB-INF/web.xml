@@ -1,13 +1,24 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	version="3.0">
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Archetype Created Web Application</display-name>
 	<servlet>
 		<servlet-name>EmployeeTableJsp</servlet-name>
-		<jsp-file>/employee.jsp</jsp-file>
+		<!--<jsp-file>/employees.jsp</jsp-file>-->
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
 	</servlet>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/EmployeeTableJsp-servlet.xml</param-value>
+    </context-param>
 	<servlet-mapping>
 		<servlet-name>EmployeeTableJsp</servlet-name>
-		<url-pattern>/employee</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>
