@@ -1,9 +1,6 @@
 package com.academysmart.model;
 
-import com.academysmart.database.EmployeeDatabase;
 import com.academysmart.exception.IncorrectEmailException;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee {
 	//TODO implement model for employee
@@ -16,10 +13,10 @@ public class Employee {
         this.fname = namef;
         this.lname = namel;
         this.email = email;
-//        if (this.email.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
-//        {
-//            throw new IncorrectEmailException("wrong email format.");
-//        }
+        if (this.email.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"))
+        {
+            throw new IncorrectEmailException("wrong email format.");
+        }
     }
 
     public Employee() {}

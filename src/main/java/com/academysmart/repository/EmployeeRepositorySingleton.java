@@ -45,7 +45,6 @@ public class EmployeeRepositorySingleton {
             throws ServletException
     {
 		//TODO implement method that adds an employee to repository
-		//This method should check that email is not used by other employees
         Employee employee = new Employee(fname, lname, email);
         return this.addEmployee(employee);
 	}
