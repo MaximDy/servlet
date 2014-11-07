@@ -5,6 +5,7 @@ import com.academysmart.database.interfaces.EmployeeDAO;
 import com.academysmart.exception.IncorrectEmailException;
 import com.academysmart.exception.ServletException;
 import com.academysmart.model.Employee;
+import com.academysmart.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -16,14 +17,14 @@ public class EmployeeRepositorySingleton {
     private static volatile EmployeeRepositorySingleton instance = null;
     private List<Employee> emp = new ArrayList<>();
     @Autowired
-    @Qualifier("e_daoImp")
-    private EmployeeDAO employeeDAOImp;
+    @Qualifier("e_service")
+    private EmployeeService employeeService;
 
     private EmployeeRepositorySingleton(){
     }
 
-    public void setEmployeeDAOImp(EmployeeDAOImp employeeDAOImp) {
-        this.employeeDAOImp = employeeDAOImp;
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     public static EmployeeRepositorySingleton getRepository() {
@@ -45,7 +46,6 @@ public class EmployeeRepositorySingleton {
             throws ServletException
     {
 		//TODO implement method that adds an employee to repository
-		//This method should check that email is not used by other employees
         Employee employee = new Employee(fname, lname, email);
         return this.addEmployee(employee);
 	}
@@ -61,16 +61,16 @@ public class EmployeeRepositorySingleton {
             }
         }
         this.emp.add(employee);
-        this.employeeDAOImp.saveEmployee(employee);
+        this.employeeService.saveEmployee(employee);
         return this.emp.get(this.emp.size()-1).getId();
     }
 
 	public List<Employee> getAllEmployees(){
 		//TODO implement method that returns list of all employees
-        if (!this.emp.containsAll(this.employeeDAOImp.getAllEmployees()))
+        if (!this.emp.containsAll(this.employeeService.getAllEmployees()))
         {
             this.emp.clear();
-            this.emp.addAll(this.employeeDAOImp.getAllEmployees());
+            this.emp.addAll(this.employeeService.getAllEmployees());
             this.emp.sort(new Comparator<Employee>() {
                 @Override
                 public int compare(Employee o1, Employee o2) {
